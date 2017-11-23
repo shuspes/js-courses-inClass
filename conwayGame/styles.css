@@ -1,0 +1,14 @@
+.css-game {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+  
+  .css-konvayGame {
+    display: grid;
+  }
+  
+  .css-konvayGame #pool {
+    display: inline-block;
+    cursor: pointer;
+  }
