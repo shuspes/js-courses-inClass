@@ -6,16 +6,13 @@ handleEvent(cb(x, y))
 var View = function(stateManager, htmlElement, size) {
     this.htmlElement = htmlElement;
     this.size = size;
-    this.stateManager = stateManager;
-    var scope = this;
-    this.htmlElement.addEventListener("click", function(ev) { 
-      scope.handleEvent(ev); 
-    });
-    
+    this.stateManager = stateManager;    
   }
   
   View.prototype.drawState = function(state) {
-    this.htmlElement.innerHTML = state.map(row => row.join(" ")).join("\n");
+    this.htmlElement.innerHTML = state.map(row => row.map(function(element) {
+      return element === 0 ? "." : "@";
+    }).join(" ")).join("\n");
   };
   
   View.prototype.handleEvent = function(ev) {

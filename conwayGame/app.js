@@ -8,19 +8,30 @@ setSpeed
 
 var Game = function(element) {
     this.element = element;
-    this.state = [[0, 0, 0, 0 ,0], [0, 0, 1, 0, 0], [0, 0, 1, 0, 0], [0, 0, 1, 0, 0], [0, 0, 0, 0 ,0]];
-    this.size = {height: 5, width: 5};
-    // this.stepTime = 1000;
+
+    var initSize = 60;
+
+    this.state = new Array(initSize).fill(0).map(function() {
+      return new Array(initSize).fill(0).map(function() {
+        return Math.random() > 0.5 ? 1 : 0;
+      });
+    });
+
+    this.size = {
+      height: initSize,
+      width: initSize
+    };
+    this.stepTime = 100;
     this.init();
   }
   
   Game.prototype.init = function() {
     var gamePool = [
       '<div class="css-konvayGame">',
-      '<pre class="js-pool" id="pool"></pre>',
-      '<button class="js-start">start</button>',
-      '<button class="js-stop">stop</button>',
-      'slow <input type="range" min="0" max="2000" id="speed">',
+      '<div class="css-pool"><pre class="js-pool" id="pool"></pre></div>',
+      '<button class="js-start css-button">start</button>',
+      '<button class="js-stop css-button">stop</button>',
+      '<label class="css-button">slow <input type="range" min="0" max="1000" id="speed"></label>',
       '</div>'
     ].join("");
     
@@ -37,21 +48,33 @@ var Game = function(element) {
         scope.startGame();
       } else if(event.target.matches(".js-stop")) {
         scope.stopGame();
+      } else if(event.target.matches("#pool")) {
+        scope.view.handleEvent(event); 
       }
     });
+    this.element.addEventListener("change", function(event) {
+      if(event.target.matches("#speed")) {
+        scope.setSpeed(event.target.value);
+      }
+    });    
     this.view.drawState(this.stateManager.getState());
   }
   
   Game.prototype.startGame = function() {
-    var stepTime = this.element.querySelector("#speed").value;
     this.view.drawState(this.stateManager.getState());
     this.gameId = setInterval(() => {
       var newState = this.stateManager.calcNextState();
       this.view.drawState(newState);
-    }, stepTime);
+    }, this.stepTime);
   }
   
   Game.prototype.stopGame = function() {
     clearInterval(this.gameId);
+  }
+
+  Game.prototype.setSpeed = function(newSpeed) {
+    this.stepTime = newSpeed;
+    this.stopGame();
+    this.startGame();
   }
   

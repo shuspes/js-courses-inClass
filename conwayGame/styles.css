@@ -1,11 +1,21 @@
 .css-game {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
   }
   
   .css-konvayGame {
     display: grid;
+  }
+
+  .css-pool {
+    font-size: 8px;
+  }
+
+  .css-button {
+    width: 100px;
+    left: 50%;
+    position: relative;
   }
   
   .css-konvayGame #pool {
