@@ -1,0 +1,31 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <div id="counter"></div>
+        <div id="counter1"></div>
+        <div id="counter2"></div>
+    </body>
+    <script>
+        function counter(element, initValue = 0) {
+            this.increment = function() {
+                initValue++;
+                element.getElementsByClassName('result')[0].innerHTML = initValue;
+            }
+
+            this.decrement = function() {
+                initValue--;
+                element.getElementsByClassName('result')[0].innerHTML = initValue;
+            }
+            // можно повесить на элемент сразу onclick через дилигирование
+            // чтоб не искать span можно пихнуть его в переменную
+
+            element.innerHTML = `<span class="result">${initValue}</span><button class="increment">+</button><button class="decrement">-</button>`;
+            element.getElementsByClassName('increment')[0].addEventListener("click", this.increment);
+            element.getElementsByClassName('decrement')[0].addEventListener("click", this.decrement);
+        }
+        counter(document.getElementById('counter'), 3);
+        counter(document.getElementById('counter1'), 7);
+        counter(document.getElementById('counter2'), 15);
+    </script>
+</html>
